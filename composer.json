@@ -1,0 +1,41 @@
+{
+    "name": "immera/hydra",
+    "description": ":package_description",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Author Name",
+            "email": "author@email.com",
+            "homepage": "http://author.com"
+        }
+    ],
+    "homepage": "https://github.com/immera/hydra",
+    "keywords": ["Laravel", "Hydra"],
+    "require": {
+        "illuminate/support": "~9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Immera\\Hydra\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Immera\\Hydra\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Immera\\Hydra\\HydraServiceProvider"
+            ],
+            "aliases": {
+                "Hydra": "Immera\\Hydra\\Facades\\Hydra"
+            }
+        }
+    }
+}
