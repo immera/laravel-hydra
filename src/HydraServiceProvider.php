@@ -13,10 +13,9 @@ class HydraServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'immera');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'immera');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        if (config('app.debug')) {
+            $this->loadRoutesFrom(__DIR__.'/routes/hydra.php');
+        }
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
@@ -31,7 +30,6 @@ class HydraServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        dd("a");
         $this->mergeConfigFrom(__DIR__.'/../config/hydra.php', 'hydra');
 
         // Register the service the package provides.
@@ -61,23 +59,5 @@ class HydraServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/hydra.php' => config_path('hydra.php'),
         ], 'hydra.config');
-
-        // Publishing the views.
-        /*$this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/vendor/immera'),
-        ], 'hydra.views');*/
-
-        // Publishing assets.
-        /*$this->publishes([
-            __DIR__.'/../resources/assets' => public_path('vendor/immera'),
-        ], 'hydra.views');*/
-
-        // Publishing the translation files.
-        /*$this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/immera'),
-        ], 'hydra.views');*/
-
-        // Registering package commands.
-        // $this->commands([]);
     }
 }

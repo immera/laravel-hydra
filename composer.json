@@ -1,17 +1,22 @@
 {
     "name": "immera/hydra",
-    "description": ":package_description",
+    "description": "Hydra Web Service",
     "license": "MIT",
     "authors": [
         {
             "name": "António Almeida",
             "email": "promatik@gmail.com",
             "homepage": "https://promatik.pt"
+        },
+        {
+            "name": "Pedro Teixeira",
+            "email": "pedroteixeira@immera.io"
         }
     ],
     "homepage": "https://github.com/immera/hydra",
     "keywords": ["Laravel", "Hydra"],
     "require": {
+        "ext-soap": "*",
         "illuminate/support": "~8|~9"
     },
     "require-dev": {

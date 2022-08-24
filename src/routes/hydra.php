@@ -2,12 +2,10 @@
 
 use App\Http\Controllers\HydraWebServiceController;
 
-dd("a");
-
-Route::middleware('api')->prefix('hydra')->group(function () {
+Route::middleware('api')->prefix('api/hydra')->group(function () {
 
     // Status
-    Route::get('', function () {
+    Route::get('/status', function () {
         return ['status' => true];
     });
 

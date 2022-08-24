@@ -47,11 +47,9 @@ MIT. Please see the [license file](license.md) for more information.
 [ico-version]: https://img.shields.io/packagist/v/immera/hydra.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/immera/hydra.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/immera/hydra/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
 
 [link-packagist]: https://packagist.org/packages/immera/hydra
 [link-downloads]: https://packagist.org/packages/immera/hydra
 [link-travis]: https://travis-ci.org/immera/hydra
-[link-styleci]: https://styleci.io/repos/12345678
 [link-author]: https://github.com/immera
 [link-contributors]: ../../contributors
