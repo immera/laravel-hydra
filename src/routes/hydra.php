@@ -11,7 +11,7 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
 
     // Costumers
     Route::post('/customers/create', function () {
-        return app(HydraWebServiceController::class)->customersCreate(
+        return app('hydra')->customersCreate(
             request()->get('name'),
             request()->get('vat'),
             request()->get('address'),
@@ -24,14 +24,14 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::post('/customers/validate', function () {
-        return app(HydraWebServiceController::class)->validateCostumer(
+        return app('hydra')->validateCostumer(
             request()->get('email'),
             request()->get('vat'),
         );
     });
 
     Route::post('/customers/update', function () { //TO DO
-        return app(HydraWebServiceController::class)->updateCostumer(
+        return app('hydra')->updateCostumer(
             request()->get('key'),
             request()->get('name'),
             request()->get('name2'),
@@ -47,14 +47,14 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::post('/customers/read', function () {
-        return app(HydraWebServiceController::class)->readCostumer(
+        return app('hydra')->readCostumer(
             request()->get('no'),
         );
     });
 
     // Sales Price
     Route::get('/sales/specific', function () {
-        return app(HydraWebServiceController::class)->readSalesPrice(
+        return app('hydra')->readSalesPrice(
             request()->get('itemno'),
             request()->get('salestype'),
             request()->get('salescode'),
@@ -66,14 +66,14 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::get('/sales', function () {
-        return app(HydraWebServiceController::class)->readMultipleSalesPrice(
+        return app('hydra')->readMultipleSalesPrice(
             request()->get('size'),
         );
     });
 
     // Sales Line Discounts
     Route::get('/sales/line/discounts/read', function () {
-        return app(HydraWebServiceController::class)->readSalesLineDiscount(
+        return app('hydra')->readSalesLineDiscount(
             request()->get('key'),
             request()->get('type'),
             request()->get('code'),
@@ -88,13 +88,13 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
 
     // Item
     Route::get('/item/read', function () {
-        return app(HydraWebServiceController::class)->readItem(
+        return app('hydra')->readItem(
             request()->get('no'),
         );
     });
 
     Route::get('/item/readMultiple', function () {
-        return app(HydraWebServiceController::class)->readMultipleItems(
+        return app('hydra')->readMultipleItems(
             request()->get('size'),
             request()->get('email'),
         );
@@ -102,7 +102,7 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
 
     // Sales Order Header
     Route::post('/sales/order/header/create', function () {
-        return app(HydraWebServiceController::class)->salesOrderHeaderCreate(
+        return app('hydra')->salesOrderHeaderCreate(
             request()->get('selltocustomerno'),
             request()->get('selltocustomername'),
             request()->get('postingnoseries'),
@@ -122,7 +122,7 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::post('/sales/order/header/update', function () { //TO DO
-        return app(HydraWebServiceController::class)->salesOrderHeaderUpdate(
+        return app('hydra')->salesOrderHeaderUpdate(
             request()->get('key'),
             request()->get('no'),
             request()->get('selltocustomerno'),
@@ -144,20 +144,20 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::get('/sales/order/header/read', function () {
-        return app(HydraWebServiceController::class)->salesOrderHeaderRead(
+        return app('hydra')->salesOrderHeaderRead(
             request()->get('no'),
         );
     });
 
     Route::get('/sales/order/header/readMultiple', function () {
-        return app(HydraWebServiceController::class)->salesOrderHeaderReadMultiple(
+        return app('hydra')->salesOrderHeaderReadMultiple(
             request()->get('no'),
         );
     });
 
     // Sales Order Lines:
     Route::post('/sales/order/lines/create', function () {
-        return app(HydraWebServiceController::class)->salesOrderLineCreate(
+        return app('hydra')->salesOrderLineCreate(
             request()->get('documentno'),
             request()->get('no'),
             request()->get('type'),
@@ -171,7 +171,7 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::post('/sales/order/lines/update', function () { //TO DO
-        return app(HydraWebServiceController::class)->salesOrderLineUpdate(
+        return app('hydra')->salesOrderLineUpdate(
             request()->get('key'),
             request()->get('type'),
             request()->get('no'),
@@ -185,21 +185,21 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::get('/sales/order/lines/read', function () {
-        return app(HydraWebServiceController::class)->salesOrderLineRead(
+        return app('hydra')->salesOrderLineRead(
             request()->get('documentno'),
             request()->get('lineno'),
         );
     });
 
     Route::get('/sales/order/lines/readMultiple', function () {
-        return app(HydraWebServiceController::class)->salesOrderLineReadMultiple(
+        return app('hydra')->salesOrderLineReadMultiple(
             request()->get('no'),
         );
     });
 
     // Sales Invoice Header
     Route::post('/sales/invoice/header/create', function () {
-        return app(HydraWebServiceController::class)->salesInvoiceHeaderCreate(
+        return app('hydra')->salesInvoiceHeaderCreate(
             request()->get('selltocustomerno'),
             request()->get('selltocustomername'),
             request()->get('postingnoseries'),
@@ -216,7 +216,7 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::post('/sales/invoice/header/update', function () {
-        return app(HydraWebServiceController::class)->salesInvoiceHeaderUpdate(
+        return app('hydra')->salesInvoiceHeaderUpdate(
             request()->get('key'),
             request()->get('no'),
             request()->get('selltocustomerno'),
@@ -235,20 +235,20 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::get('/sales/invoice/header/read', function () {
-        return app(HydraWebServiceController::class)->salesInvoiceHeaderRead(
+        return app('hydra')->salesInvoiceHeaderRead(
             request()->get('no'),
         );
     });
 
     Route::get('/sales/invoice/header/readMultiple', function () {
-        return app(HydraWebServiceController::class)->salesInvoiceHeaderReadMultiple(
+        return app('hydra')->salesInvoiceHeaderReadMultiple(
             request()->get('no'),
         );
     });
 
     // Sales Invoice Lines
     Route::post('/sales/invoice/lines/create', function () {
-        return app(HydraWebServiceController::class)->salesInvoiceLinesCreate(
+        return app('hydra')->salesInvoiceLinesCreate(
             request()->get('documentno'),
             request()->get('type'),
             request()->get('no'),
@@ -262,7 +262,7 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::post('/sales/invoice/lines/update', function () {
-        return app(HydraWebServiceController::class)->salesInvoiceLinesUpdate(
+        return app('hydra')->salesInvoiceLinesUpdate(
             request()->get('key'),
             request()->get('documentno'),
             request()->get('type'),
@@ -277,59 +277,59 @@ Route::middleware('api')->prefix('api/hydra')->group(function () {
     });
 
     Route::get('/sales/invoice/lines/read', function () {
-        return app(HydraWebServiceController::class)->salesLinesInvoiceRead(
+        return app('hydra')->salesLinesInvoiceRead(
             request()->get('documentno'),
             request()->get('lineno'),
         );
     });
 
     Route::get('/sales/invoice/lines/readMultiple', function () {
-        return app(HydraWebServiceController::class)->salesLinesInvoiceReadMultiple(
+        return app('hydra')->salesLinesInvoiceReadMultiple(
             request()->get('documentno'),
         );
     });
 
     // Cust Ledger Entry
     Route::get('/costumer/ledger/entry/read', function () {
-        return app(HydraWebServiceController::class)->custLedgerEntryRead(
+        return app('hydra')->custLedgerEntryRead(
             request()->get('entryno'),
         );
     });
 
     // Route::post('/costumer/ledger/entry/readMultiple', function () {
-    //     return app(HydraWebServiceController::class)->custLedgerEntryReadMultiple(
+    //     return app('hydra')->custLedgerEntryReadMultiple(
     //         request()->get('customerno'),
     //     );
     // });
 
     // Stock Items
     Route::get('/item/stock/read', function () {
-        return app(HydraWebServiceController::class)->itemStockRead(
+        return app('hydra')->itemStockRead(
             request()->get('no'),
         );
     });
 
     Route::get('/item/stock/readMultiple', function () {
-        return app(HydraWebServiceController::class)->itemStockReadMultiple(
+        return app('hydra')->itemStockReadMultiple(
             request()->get('inventorybylocation'),
         );
     });
 
     // Generic Methods
     Route::post('/methods/print/invoice', function () {
-        return app(HydraWebServiceController::class)->fxPostInvoice(
+        return app('hydra')->fxPostInvoice(
             request()->get('pinvoiceno'),
         );
     });
 
     Route::post('/methods/print/document', function () {
-        return app(HydraWebServiceController::class)->fxPrintDocument(
+        return app('hydra')->fxPrintDocument(
             request()->get('pinvoiceno'),
         );
     });
 
     Route::get('/methods/sales/price', function () {
-        return app(HydraWebServiceController::class)->getSalesPrice(
+        return app('hydra')->getSalesPrice(
             request()->get('pcustomer'),
             request()->get('pitemno'),
             request()->get('pcustomerpricetable'),
