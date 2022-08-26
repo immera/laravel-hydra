@@ -337,16 +337,16 @@ class Hydra
      * @param string $postcode
      * @param string $prepaymentnoseries
      * @param string $selltoaddress
-     * @param string|null $selltoaddress2
+     * @param string $selltoaddress2
      * @param string $selltocity
      * @param string $selltopostcode
      * @param string $selltocontryregioncode
-     * @param string|null $selltocontract
+     * @param string $selltocontract
      * @param string $postingdate
-     * @param string|null $orderdate
+     * @param string $orderdate
      * @param string $duedate
-     * @param string|null $requestdeliverydate
-     * @param string|null $externaldocumentno
+     * @param string $requestdeliverydate
+     * @param string $externaldocumentno
      * @return object
      */
     public function salesOrderHeaderCreate(
@@ -355,16 +355,16 @@ class Hydra
         string $postingnoseries,
         string $prepaymentnoseries,
         string $selltoaddress,
-        string|null $selltoaddress2,
+        string $selltoaddress2,
         string $selltocity,
         string $selltopostcode,
         string $selltocontryregioncode,
-        string|null $selltocontract,
+        string $selltocontract,
         string $postingdate,
-        string|null $orderdate,
+        string $orderdate,
         string $duedate,
-        string|null $requestdeliverydate,
-        string|null $externaldocumentno
+        string $requestdeliverydate,
+        string $externaldocumentno
     ): object {
         $result = $this
             ->soap('Page/WsSalesOrderHeader')
@@ -402,16 +402,16 @@ class Hydra
      * @param string $postcode
      * @param string $prepaymentnoseries
      * @param string $selltoaddress
-     * @param string|null $selltoaddress2
+     * @param string $selltoaddress2
      * @param string $selltocity
      * @param string $selltopostcode
      * @param string $selltocontryregioncode
-     * @param string|null $selltocontract
+     * @param string $selltocontract
      * @param string $postingdate
-     * @param string|null $orderdate
+     * @param string $orderdate
      * @param string $duedate
-     * @param string|null $requestdeliverydate
-     * @param string|null $externaldocumentno
+     * @param string $requestdeliverydate
+     * @param string $externaldocumentno
      * @return object
      */
     public function salesOrderHeaderUpdate(
@@ -422,16 +422,16 @@ class Hydra
         string $postingnoseries,
         string $prepaymentnoseries,
         string $selltoaddress,
-        string|null $selltoaddress2,
+        string $selltoaddress2,
         string $selltocity,
         string $selltopostcode,
         string $selltocontryregioncode,
-        string|null $selltocontract,
+        string $selltocontract,
         string $postingdate,
-        string|null $orderdate,
+        string $orderdate,
         string $duedate,
-        string|null $requestdeliverydate,
-        string|null $externaldocumentno
+        string $requestdeliverydate,
+        string $externaldocumentno
     ): object {
         $result = $this
             ->soap('Page/WsSalesOrderHeader')
@@ -509,24 +509,24 @@ class Hydra
      * @param string $documentno
      * @param string $no
      * @param string $type
-     * @param string|null $description
-     * @param string|null $description2
+     * @param string $description
+     * @param string $description2
      * @param string $quantity
-     * @param string|null $measurecode
-     * @param string|null $unitprice
-     * @param string|null $linediscountpercent
+     * @param string $measurecode
+     * @param string $unitprice
+     * @param string $linediscountpercent
      * @return object
      */
     public function salesOrderLineCreate(
         string $documentno,
         string $no,
         string $type,
-        string|null $description,
-        string|null $description2,
+        string $description,
+        string $description2,
         string $quantity,
-        string|null $measurecode,
-        string|null $unitprice,
-        string|null $linediscountpercent
+        string $measurecode,
+        string $unitprice,
+        string $linediscountpercent
     ): object {
 
         $result = $this
@@ -554,24 +554,24 @@ class Hydra
      * @param string $key
      * @param string $type
      * @param string $no
-     * @param string|null $description
-     * @param string|null $description2
+     * @param string $description
+     * @param string $description2
      * @param string $quantity
-     * @param string|null $measurecode
-     * @param string|null $unitprice
-     * @param string|null $linediscountpercent
+     * @param string $measurecode
+     * @param string $unitprice
+     * @param string $linediscountpercent
      * @return object
      */
     public function salesOrderLineUpdate(
         string $key,
         string $type,
         string $no,
-        string|null $description,
-        string|null $description2,
+        string $description,
+        string $description2,
         string $quantity,
-        string|null $measurecode,
-        string|null $unitprice,
-        string|null $linediscountpercent
+        string $measurecode,
+        string $unitprice,
+        string $linediscountpercent
     ): object {
         $result = $this
             ->soap('Page/WsSalesOrderLines')
@@ -642,32 +642,32 @@ class Hydra
      * Sales Invoice Header Create
      *
      * @param string $selltocustomerno
-     * @param string|null $selltocustomername
-     * @param string|null $postingnoseries
-     * @param string|null $prepaymentnoseries
-     * @param string|null $selltoaddress
-     * @param string|null $selltoaddress2
-     * @param string|null $selltocity
-     * @param string|null $selltopostcode
-     * @param string|null $selltocountryregioncode
-     * @param string|null $selltocontact
-     * @param string|null $postingdate
-     * @param string|null $duedate
+     * @param string $selltocustomername
+     * @param string $postingnoseries
+     * @param string $prepaymentnoseries
+     * @param string $selltoaddress
+     * @param string $selltoaddress2
+     * @param string $selltocity
+     * @param string $selltopostcode
+     * @param string $selltocountryregioncode
+     * @param string $selltocontact
+     * @param string $postingdate
+     * @param string $duedate
      * @return object
      */
     public function salesInvoiceHeaderCreate(
         string $selltocustomerno,
-        string|null $selltocustomername,
-        string|null $postingnoseries,
-        string|null $prepaymentnoseries,
-        string|null $selltoaddress,
-        string|null $selltoaddress2,
-        string|null $selltocity,
-        string|null $selltopostcode,
-        string|null $selltocountryregioncode,
-        string|null $selltocontact,
-        string|null $postingdate,
-        string|null $duedate
+        string $selltocustomername,
+        string $postingnoseries,
+        string $prepaymentnoseries,
+        string $selltoaddress,
+        string $selltoaddress2,
+        string $selltocity,
+        string $selltopostcode,
+        string $selltocountryregioncode,
+        string $selltocontact,
+        string $postingdate,
+        string $duedate
     ): object {
 
         $result = $this
@@ -698,34 +698,34 @@ class Hydra
      * @param string $key
      * @param string $no
      * @param string $selltocustomerno
-     * @param string|null $selltocustomername
-     * @param string|null $postingnoseries
-     * @param string|null $prepaymentnoseries
-     * @param string|null $selltoaddress
-     * @param string|null $selltoaddress2
-     * @param string|null $selltocity
-     * @param string|null $selltopostcode
-     * @param string|null $selltocountryregioncode
-     * @param string|null $selltocontact
-     * @param string|null $postingdate
-     * @param string|null $duedate
+     * @param string $selltocustomername
+     * @param string $postingnoseries
+     * @param string $prepaymentnoseries
+     * @param string $selltoaddress
+     * @param string $selltoaddress2
+     * @param string $selltocity
+     * @param string $selltopostcode
+     * @param string $selltocountryregioncode
+     * @param string $selltocontact
+     * @param string $postingdate
+     * @param string $duedate
      * @return object
      */
     public function salesInvoiceHeaderUpdate(
         string $key,
         string $no,
         string $selltocustomerno,
-        string|null $selltocustomername,
-        string|null $postingnoseries,
-        string|null $prepaymentnoseries,
-        string|null $selltoaddress,
-        string|null $selltoaddress2,
-        string|null $selltocity,
-        string|null $selltopostcode,
-        string|null $selltocountryregioncode,
-        string|null $selltocontact,
-        string|null $postingdate,
-        string|null $duedate
+        string $selltocustomername,
+        string $postingnoseries,
+        string $prepaymentnoseries,
+        string $selltoaddress,
+        string $selltoaddress2,
+        string $selltocity,
+        string $selltopostcode,
+        string $selltocountryregioncode,
+        string $selltocontact,
+        string $postingdate,
+        string $duedate
     ): object {
 
         $result = $this
@@ -801,24 +801,24 @@ class Hydra
      * @param string documentno
      * @param string type
      * @param string no
-     * @param string|null  description
-     * @param string|null  description2
+     * @param string  description
+     * @param string  description2
      * @param string quantity
-     * @param string|null  measyrecode
-     * @param string|null  unitprice
-     * @param string|null  linediscountpercent
+     * @param string  measyrecode
+     * @param string  unitprice
+     * @param string  linediscountpercent
      * @return object
      */
     public function salesInvoiceLinesCreate(
         string $documentno,
         string $type,
         string $no,
-        string|null  $description,
-        string|null  $description2,
+        string  $description,
+        string  $description2,
         string $quantity,
-        string|null  $measyrecode,
-        string|null  $unitprice,
-        string|null  $linediscountpercent
+        string  $measyrecode,
+        string  $unitprice,
+        string  $linediscountpercent
     ): object {
 
         $result = $this
@@ -848,14 +848,14 @@ class Hydra
      * @param string documentno
      * @param string type
      * @param string no
-     * @param string|null  description
-     * @param string|null  description2
+     * @param string  description
+     * @param string  description2
      * @param string quantity
-     * @param string|null  measyrecode
-     * @param string|null  unitprice
-     * @param string|null  linediscountpercent
-     * @param string|null  amount
-     * @param string|null  amountincludingvat
+     * @param string  measyrecode
+     * @param string  unitprice
+     * @param string  linediscountpercent
+     * @param string  amount
+     * @param string  amountincludingvat
      * @return object
      */
     public function salesInvoiceLinesUpdate(
@@ -863,14 +863,14 @@ class Hydra
         string $documentno,
         string $type,
         string $no,
-        string|null  $description,
-        string|null  $description2,
+        string  $description,
+        string  $description2,
         string $quantity,
-        string|null  $measyrecode,
-        string|null  $unitprice,
-        string|null  $linediscountpercent,
-        string|null  $amount,
-        string|null  $amountincludingvat
+        string  $measyrecode,
+        string  $unitprice,
+        string  $linediscountpercent,
+        string  $amount,
+        string  $amountincludingvat
     ): object {
 
         $result = $this
@@ -1070,9 +1070,9 @@ class Hydra
      * @return object
      */
     public function getSalesPrice(
-        string|null $pcustomer,
+        string $pcustomer,
         string $pitemno,
-        string|null $pcustomerpricetable,
+        string $pcustomerpricetable,
         string $pdate
     ): object {
         $result = $this
