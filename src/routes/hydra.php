@@ -1,691 +1,254 @@
 <?php
 
-use App\Http\Controllers\HydraWebServiceController;
+use Immera\Hydra\Controllers\HydraApiController;
 
-function status () {
-    return ['status' => true];
-}
+$routes = [
+    [
+        "request" => "get",
+        "url" => "/status",
+        "controller" => HydraApiController::class,
+        "method" => "status"
+    ],
+
+    // Customer
+    [
+        "request" => 'post',
+        "url" => '/customers/create',
+        "controller" => HydraApiController::class,
+        "method" => 'customersCreate'
+    ],
+    [
+        "request" => 'post',
+        "url" => '/customers/validate',
+        "controller" => HydraApiController::class,
+        "method" => 'validateCostumer'
+    ],
+    [
+        "request" => 'post',
+        "url" => '/customers/update',
+        "controller" => HydraApiController::class,
+        "method" => 'updateCostumer'
+    ],
+    [
+        "request" => 'post',
+        "url" => '/customers/read',
+        "controller" => HydraApiController::class,
+        "method" => 'readCostumer'
+    ],
+
+    // Sales Price
+    [
+        "request" => 'get',
+        "url" => '/sales/specific',
+        "controller" => HydraApiController::class,
+        "method" => 'readSalesPrice'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales',
+        "controller" => HydraApiController::class,
+        "method" => 'readMultipleSalesPrice'
+    ],
+
+    // Sales Line Discounts
+    [
+        "request" => 'get',
+        "url" => '/sales/line/discounts/read',
+        "controller" => HydraApiController::class,
+        "method" => 'readSalesLineDiscount'
+    ],
+
+    // Item
+    [
+        "request" => 'get',
+        "url" => '/item/read',
+        "controller" => HydraApiController::class,
+        "method" => 'readItem'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/item/readMultiple',
+        "controller" => HydraApiController::class,
+        "method" => 'readMultipleItems'
+    ],
+
+    // Sales Order Header
+    [
+        "request" => 'post',
+        "url" => '/sales/order/header/create',
+        "controller" => HydraApiController::class,
+        "method" => 'salesOrderHeaderCreate'
+    ],
+    [
+        "request" => 'post',
+        "url" => '/sales/order/header/update',
+        "controller" => HydraApiController::class,
+        "method" => 'salesOrderHeaderUpdate'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales/order/header/read',
+        "controller" => HydraApiController::class,
+        "method" => 'salesOrderHeaderRead'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales/order/header/readMultiple',
+        "controller" => HydraApiController::class,
+        "method" => 'salesOrderHeaderReadMultiple'
+    ],
+
+    // Sales Order Lines:
+    [
+        "request" => 'post',
+        "url" => '/sales/order/lines/create',
+        "controller" => HydraApiController::class,
+        "method" => 'salesOrderLineCreate'
+    ],
+    [
+        "request" => 'post',
+        "url" => '/sales/order/lines/update',
+        "controller" => HydraApiController::class,
+        "method" => 'salesOrderLineUpdate'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales/order/lines/read',
+        "controller" => HydraApiController::class,
+        "method" => 'salesOrderLineRead'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales/order/lines/readMultiple',
+        "controller" => HydraApiController::class,
+        "method" => 'salesOrderLineReadMultiple'
+    ],
+
+    // Sales Invoice Header
+    [
+        "request" => 'post',
+        "url" => '/sales/invoice/header/create',
+        "controller" => HydraApiController::class,
+        "method" => 'salesInvoiceHeaderCreate'
+    ],
+    [
+        "request" => 'post',
+        "url" => '/sales/invoice/header/update',
+        "controller" => HydraApiController::class,
+        "method" => 'salesInvoiceHeaderUpdate'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales/invoice/header/read',
+        "controller" => HydraApiController::class,
+        "method" => 'salesInvoiceHeaderRead'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales/invoice/header/readMultiple',
+        "controller" => HydraApiController::class,
+        "method" => 'salesInvoiceHeaderReadMultiple'
+    ],
+
+    // Sales Invoice Lines
+    [
+        "request" => 'post',
+        "url" => '/sales/invoice/lines/create',
+        "controller" => HydraApiController::class,
+        "method" => 'salesInvoiceLinesCreate'
+    ],
+    [
+        "request" => 'post',
+        "url" => '/sales/invoice/lines/update',
+        "controller" => HydraApiController::class,
+        "method" => 'salesInvoiceLinesUpdate'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales/invoice/lines/read',
+        "controller" => HydraApiController::class,
+        "method" => 'salesLinesInvoiceRead'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/sales/invoice/lines/readMultiple',
+        "controller" => HydraApiController::class,
+        "method" => 'salesLinesInvoiceReadMultiple'
+    ],
+
+    // Cust Ledger Entry
+    [
+        "request" => 'get',
+        "url" => '/costumer/ledger/entry/read',
+        "controller" => HydraApiController::class,
+        "method" => 'custLedgerEntryRead'
+    ],
+    // [
+    //     "request" => 'post',
+    //     "url" => '/costumer/ledger/entry/readMultiple',
+    //     "controller" => HydraApiController::class,
+    //     "method" => 'custLedgerEntryReadMultiple'
+    // ],
+
+
+    // Stock Items
+    [
+        "request" => 'get',
+        "url" => '/item/stock/read',
+        "controller" => HydraApiController::class,
+        "method" => 'itemStockRead'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/item/stock/readMultiple',
+        "controller" => HydraApiController::class,
+        "method" => 'itemStockReadMultiple'
+    ],
+
+    // Generic Methods
+    [
+        "request" => 'post',
+        "url" => '/methods/print/invoice',
+        "controller" => HydraApiController::class,
+        "method" => 'fxPostInvoice'
+    ],
+    [
+        "request" => 'post',
+        "url" => '/methods/print/document',
+        "controller" => HydraApiController::class,
+        "method" => 'fxPrintDocument'
+    ],
+    [
+        "request" => 'get',
+        "url" => '/methods/sales/price',
+        "controller" => HydraApiController::class,
+        "method" => 'getSalesPrice'
+    ],
+];
+
 
 if (app() instanceof \Illuminate\Foundation\Application) {
 
     // Code for laravel
-    Route::middleware('api')->prefix('api/hydra')->group(function () {
-
-        // Status
-        Route::get('/status', function () {
-            return ['status' => true];
-        });
-
-        // Costumers
-        Route::post('/customers/create', function () {
-            return app('hydra')->customersCreate(
-                request()->get('name'),
-                request()->get('vat'),
-                request()->get('address'),
-                request()->get('postcode'),
-                request()->get('city'),
-                request()->get('phone'),
-                request()->get('email'),
-                request()->get('homepage'),
-            );
-        });
-
-        Route::post('/customers/validate', function () {
-            return app('hydra')->validateCostumer(
-                request()->get('email'),
-                request()->get('vat'),
-            );
-        });
-
-        Route::post('/customers/update', function () { //TO DO
-            return app('hydra')->updateCostumer(
-                request()->get('key'),
-                request()->get('name'),
-                request()->get('name2'),
-                request()->get('vat'),
-                request()->get('address'),
-                request()->get('address2'),
-                request()->get('postcode'),
-                request()->get('city'),
-                request()->get('phone'),
-                request()->get('email'),
-                request()->get('homepage'),
-            );
-        });
-
-        Route::post('/customers/read', function () {
-            return app('hydra')->readCostumer(
-                request()->get('no'),
-            );
-        });
-
-        // Sales Price
-        Route::get('/sales/specific', function () {
-            return app('hydra')->readSalesPrice(
-                request()->get('itemno'),
-                request()->get('salestype'),
-                request()->get('salescode'),
-                request()->get('startingdate'),
-                request()->get('currencycode'),
-                request()->get('measurecode'),
-                request()->get('quantity'),
-            );
-        });
-
-        Route::get('/sales', function () {
-            return app('hydra')->readMultipleSalesPrice(
-                request()->get('size'),
-            );
-        });
-
-        // Sales Line Discounts
-        Route::get('/sales/line/discounts/read', function () {
-            return app('hydra')->readSalesLineDiscount(
-                request()->get('key'),
-                request()->get('type'),
-                request()->get('code'),
-                request()->get('salestype'),
-                request()->get('salescode'),
-                request()->get('startingdate'),
-                request()->get('endingdate'),
-                request()->get('unitprice'),
-                request()->get('priceincludesvat'),
-            );
-        });
-
-        // Item
-        Route::get('/item/read', function () {
-            return app('hydra')->readItem(
-                request()->get('no'),
-            );
-        });
-
-        Route::get('/item/readMultiple', function () {
-            return app('hydra')->readMultipleItems(
-                request()->get('size'),
-                request()->get('email'),
-            );
-        });
-
-        // Sales Order Header
-        Route::post('/sales/order/header/create', function () {
-            return app('hydra')->salesOrderHeaderCreate(
-                request()->get('selltocustomerno'),
-                request()->get('selltocustomername'),
-                request()->get('postingnoseries'),
-                request()->get('prepaymentnoseries'),
-                request()->get('selltoaddress'),
-                request()->get('selltoaddress2'),
-                request()->get('selltocity'),
-                request()->get('selltopostcode'),
-                request()->get('selltocontryregioncode'),
-                request()->get('selltocontract'),
-                request()->get('postingdate'),
-                request()->get('orderdate'),
-                request()->get('duedate'),
-                request()->get('requestdeliverydate'),
-                request()->get('externaldocumentno'),
-            );
-        });
-
-        Route::post('/sales/order/header/update', function () { //TO DO
-            return app('hydra')->salesOrderHeaderUpdate(
-                request()->get('key'),
-                request()->get('no'),
-                request()->get('selltocustomerno'),
-                request()->get('selltocustomername'),
-                request()->get('postingnoseries'),
-                request()->get('prepaymentnoseries'),
-                request()->get('selltoaddress'),
-                request()->get('selltoaddress2'),
-                request()->get('selltocity'),
-                request()->get('selltopostcode'),
-                request()->get('selltocontryregioncode'),
-                request()->get('selltocontract'),
-                request()->get('postingdate'),
-                request()->get('orderdate'),
-                request()->get('duedate'),
-                request()->get('requestdeliverydate'),
-                request()->get('externaldocumentno'),
-            );
-        });
-
-        Route::get('/sales/order/header/read', function () {
-            return app('hydra')->salesOrderHeaderRead(
-                request()->get('no'),
-            );
-        });
-
-        Route::get('/sales/order/header/readMultiple', function () {
-            return app('hydra')->salesOrderHeaderReadMultiple(
-                request()->get('no'),
-            );
-        });
-
-        // Sales Order Lines:
-        Route::post('/sales/order/lines/create', function () {
-            return app('hydra')->salesOrderLineCreate(
-                request()->get('documentno'),
-                request()->get('no'),
-                request()->get('type'),
-                request()->get('description'),
-                request()->get('description2'),
-                request()->get('quantity'),
-                request()->get('measurecode'),
-                request()->get('unitprice'),
-                request()->get('linediscountpercent'),
-            );
-        });
-
-        Route::post('/sales/order/lines/update', function () { //TO DO
-            return app('hydra')->salesOrderLineUpdate(
-                request()->get('key'),
-                request()->get('type'),
-                request()->get('no'),
-                request()->get('description'),
-                request()->get('description2'),
-                request()->get('quantity'),
-                request()->get('measurecode'),
-                request()->get('unitprice'),
-                request()->get('linediscountpercent'),
-            );
-        });
-
-        Route::get('/sales/order/lines/read', function () {
-            return app('hydra')->salesOrderLineRead(
-                request()->get('documentno'),
-                request()->get('lineno'),
-            );
-        });
-
-        Route::get('/sales/order/lines/readMultiple', function () {
-            return app('hydra')->salesOrderLineReadMultiple(
-                request()->get('no'),
-            );
-        });
-
-        // Sales Invoice Header
-        Route::post('/sales/invoice/header/create', function () {
-            return app('hydra')->salesInvoiceHeaderCreate(
-                request()->get('selltocustomerno'),
-                request()->get('selltocustomername'),
-                request()->get('postingnoseries'),
-                request()->get('prepaymentnoseries'),
-                request()->get('selltoaddress'),
-                request()->get('selltoaddress2'),
-                request()->get('selltocity'),
-                request()->get('selltopostcode'),
-                request()->get('selltocountryregioncode'),
-                request()->get('selltocontact'),
-                request()->get('postingdate'),
-                request()->get('duedate'),
-            );
-        });
-
-        Route::post('/sales/invoice/header/update', function () {
-            return app('hydra')->salesInvoiceHeaderUpdate(
-                request()->get('key'),
-                request()->get('no'),
-                request()->get('selltocustomerno'),
-                request()->get('selltocustomername'),
-                request()->get('postingnoseries'),
-                request()->get('prepaymentnoseries'),
-                request()->get('selltoaddress'),
-                request()->get('selltoaddress2'),
-                request()->get('selltocity'),
-                request()->get('selltopostcode'),
-                request()->get('selltocountryregioncode'),
-                request()->get('selltocontact'),
-                request()->get('postingdate'),
-                request()->get('duedate'),
-            );
-        });
-
-        Route::get('/sales/invoice/header/read', function () {
-            return app('hydra')->salesInvoiceHeaderRead(
-                request()->get('no'),
-            );
-        });
-
-        Route::get('/sales/invoice/header/readMultiple', function () {
-            return app('hydra')->salesInvoiceHeaderReadMultiple(
-                request()->get('no'),
-            );
-        });
-
-        // Sales Invoice Lines
-        Route::post('/sales/invoice/lines/create', function () {
-            return app('hydra')->salesInvoiceLinesCreate(
-                request()->get('documentno'),
-                request()->get('type'),
-                request()->get('no'),
-                request()->get('description'),
-                request()->get('description2'),
-                request()->get('quantity'),
-                request()->get('measyrecode'),
-                request()->get('unitprice'),
-                request()->get('linediscountpercent'),
-            );
-        });
-
-        Route::post('/sales/invoice/lines/update', function () {
-            return app('hydra')->salesInvoiceLinesUpdate(
-                request()->get('key'),
-                request()->get('documentno'),
-                request()->get('type'),
-                request()->get('no'),
-                request()->get('description'),
-                request()->get('description2'),
-                request()->get('quantity'),
-                request()->get('measyrecode'),
-                request()->get('unitprice'),
-                request()->get('linediscountpercent'),
-            );
-        });
-
-        Route::get('/sales/invoice/lines/read', function () {
-            return app('hydra')->salesLinesInvoiceRead(
-                request()->get('documentno'),
-                request()->get('lineno'),
-            );
-        });
-
-        Route::get('/sales/invoice/lines/readMultiple', function () {
-            return app('hydra')->salesLinesInvoiceReadMultiple(
-                request()->get('documentno'),
-            );
-        });
-
-        // Cust Ledger Entry
-        Route::get('/costumer/ledger/entry/read', function () {
-            return app('hydra')->custLedgerEntryRead(
-                request()->get('entryno'),
-            );
-        });
-
-        // Route::post('/costumer/ledger/entry/readMultiple', function () {
-        //     return app('hydra')->custLedgerEntryReadMultiple(
-        //         request()->get('customerno'),
-        //     );
-        // });
-
-        // Stock Items
-        Route::get('/item/stock/read', function () {
-            return app('hydra')->itemStockRead(
-                request()->get('no'),
-            );
-        });
-
-        Route::get('/item/stock/readMultiple', function () {
-            return app('hydra')->itemStockReadMultiple(
-                request()->get('inventorybylocation'),
-            );
-        });
-
-        // Generic Methods
-        Route::post('/methods/print/invoice', function () {
-            return app('hydra')->fxPostInvoice(
-                request()->get('pinvoiceno'),
-            );
-        });
-
-        Route::post('/methods/print/document', function () {
-            return app('hydra')->fxPrintDocument(
-                request()->get('pinvoiceno'),
-            );
-        });
-
-        Route::get('/methods/sales/price', function () {
-            return app('hydra')->getSalesPrice(
-                request()->get('pcustomer'),
-                request()->get('pitemno'),
-                request()->get('pcustomerpricetable'),
-                request()->get('pdate'),
-            );
-        });
+    Route::middleware('api')->prefix('api/hydra')->group(function () use ($routes) {
+        foreach ($routes as $r) {
+            extract($r);
+            Route::$request($url, [$controller, $method]);
+        }
     });
 
 } else {
-    // Code for lumen
-    $route = $this->app->router;
 
-    $route->group([
+    // Code for lumen
+    $router = $this->app->router;
+    $router->group([
         'middleware' => 'api',
         'prefix' => 'api/hydra'
-    ], function() use ($route) {
-
-        // Status
-        $route->get('/status', function () {
-            return ['status' => true];
-        });
-
-        // Costumers
-        $route->post('/customers/create', function () {
-            return app('hydra')->customersCreate(
-                request()->get('name'),
-                request()->get('vat'),
-                request()->get('address'),
-                request()->get('postcode'),
-                request()->get('city'),
-                request()->get('phone'),
-                request()->get('email'),
-                request()->get('homepage'),
-            );
-        });
-
-        $route->post('/customers/validate', function () {
-            return app('hydra')->validateCostumer(
-                request()->get('email'),
-                request()->get('vat'),
-            );
-        });
-
-        $route->post('/customers/update', function () { //TO DO
-            return app('hydra')->updateCostumer(
-                request()->get('key'),
-                request()->get('name'),
-                request()->get('name2'),
-                request()->get('vat'),
-                request()->get('address'),
-                request()->get('address2'),
-                request()->get('postcode'),
-                request()->get('city'),
-                request()->get('phone'),
-                request()->get('email'),
-                request()->get('homepage'),
-            );
-        });
-
-        $route->post('/customers/read', function () {
-            return app('hydra')->readCostumer(
-                request()->get('no'),
-            );
-        });
-
-        // Sales Price
-        $route->get('/sales/specific', function () {
-            return app('hydra')->readSalesPrice(
-                request()->get('itemno'),
-                request()->get('salestype'),
-                request()->get('salescode'),
-                request()->get('startingdate'),
-                request()->get('currencycode'),
-                request()->get('measurecode'),
-                request()->get('quantity'),
-            );
-        });
-
-        $route->get('/sales', function () {
-            return app('hydra')->readMultipleSalesPrice(
-                request()->get('size'),
-            );
-        });
-
-        // Sales Line Discounts
-        $route->get('/sales/line/discounts/read', function () {
-            return app('hydra')->readSalesLineDiscount(
-                request()->get('key'),
-                request()->get('type'),
-                request()->get('code'),
-                request()->get('salestype'),
-                request()->get('salescode'),
-                request()->get('startingdate'),
-                request()->get('endingdate'),
-                request()->get('unitprice'),
-                request()->get('priceincludesvat'),
-            );
-        });
-
-        // Item
-        $route->get('/item/read', function () {
-            return app('hydra')->readItem(
-                request()->get('no'),
-            );
-        });
-
-        $route->get('/item/readMultiple', function () {
-            return app('hydra')->readMultipleItems(
-                request()->get('size'),
-                request()->get('email'),
-            );
-        });
-
-        // Sales Order Header
-        $route->post('/sales/order/header/create', function () {
-            return app('hydra')->salesOrderHeaderCreate(
-                request()->get('selltocustomerno'),
-                request()->get('selltocustomername'),
-                request()->get('postingnoseries'),
-                request()->get('prepaymentnoseries'),
-                request()->get('selltoaddress'),
-                request()->get('selltoaddress2'),
-                request()->get('selltocity'),
-                request()->get('selltopostcode'),
-                request()->get('selltocontryregioncode'),
-                request()->get('selltocontract'),
-                request()->get('postingdate'),
-                request()->get('orderdate'),
-                request()->get('duedate'),
-                request()->get('requestdeliverydate'),
-                request()->get('externaldocumentno'),
-            );
-        });
-
-        $route->post('/sales/order/header/update', function () { //TO DO
-            return app('hydra')->salesOrderHeaderUpdate(
-                request()->get('key'),
-                request()->get('no'),
-                request()->get('selltocustomerno'),
-                request()->get('selltocustomername'),
-                request()->get('postingnoseries'),
-                request()->get('prepaymentnoseries'),
-                request()->get('selltoaddress'),
-                request()->get('selltoaddress2'),
-                request()->get('selltocity'),
-                request()->get('selltopostcode'),
-                request()->get('selltocontryregioncode'),
-                request()->get('selltocontract'),
-                request()->get('postingdate'),
-                request()->get('orderdate'),
-                request()->get('duedate'),
-                request()->get('requestdeliverydate'),
-                request()->get('externaldocumentno'),
-            );
-        });
-
-        $route->get('/sales/order/header/read', function () {
-            return app('hydra')->salesOrderHeaderRead(
-                request()->get('no'),
-            );
-        });
-
-        $route->get('/sales/order/header/readMultiple', function () {
-            return app('hydra')->salesOrderHeaderReadMultiple(
-                request()->get('no'),
-            );
-        });
-
-        // Sales Order Lines:
-        $route->post('/sales/order/lines/create', function () {
-            return app('hydra')->salesOrderLineCreate(
-                request()->get('documentno'),
-                request()->get('no'),
-                request()->get('type'),
-                request()->get('description'),
-                request()->get('description2'),
-                request()->get('quantity'),
-                request()->get('measurecode'),
-                request()->get('unitprice'),
-                request()->get('linediscountpercent'),
-            );
-        });
-
-        $route->post('/sales/order/lines/update', function () { //TO DO
-            return app('hydra')->salesOrderLineUpdate(
-                request()->get('key'),
-                request()->get('type'),
-                request()->get('no'),
-                request()->get('description'),
-                request()->get('description2'),
-                request()->get('quantity'),
-                request()->get('measurecode'),
-                request()->get('unitprice'),
-                request()->get('linediscountpercent'),
-            );
-        });
-
-        $route->get('/sales/order/lines/read', function () {
-            return app('hydra')->salesOrderLineRead(
-                request()->get('documentno'),
-                request()->get('lineno'),
-            );
-        });
-
-        $route->get('/sales/order/lines/readMultiple', function () {
-            return app('hydra')->salesOrderLineReadMultiple(
-                request()->get('no'),
-            );
-        });
-
-        // Sales Invoice Header
-        $route->post('/sales/invoice/header/create', function () {
-            return app('hydra')->salesInvoiceHeaderCreate(
-                request()->get('selltocustomerno'),
-                request()->get('selltocustomername'),
-                request()->get('postingnoseries'),
-                request()->get('prepaymentnoseries'),
-                request()->get('selltoaddress'),
-                request()->get('selltoaddress2'),
-                request()->get('selltocity'),
-                request()->get('selltopostcode'),
-                request()->get('selltocountryregioncode'),
-                request()->get('selltocontact'),
-                request()->get('postingdate'),
-                request()->get('duedate'),
-            );
-        });
-
-        $route->post('/sales/invoice/header/update', function () {
-            return app('hydra')->salesInvoiceHeaderUpdate(
-                request()->get('key'),
-                request()->get('no'),
-                request()->get('selltocustomerno'),
-                request()->get('selltocustomername'),
-                request()->get('postingnoseries'),
-                request()->get('prepaymentnoseries'),
-                request()->get('selltoaddress'),
-                request()->get('selltoaddress2'),
-                request()->get('selltocity'),
-                request()->get('selltopostcode'),
-                request()->get('selltocountryregioncode'),
-                request()->get('selltocontact'),
-                request()->get('postingdate'),
-                request()->get('duedate'),
-            );
-        });
-
-        $route->get('/sales/invoice/header/read', function () {
-            return app('hydra')->salesInvoiceHeaderRead(
-                request()->get('no'),
-            );
-        });
-
-        $route->get('/sales/invoice/header/readMultiple', function () {
-            return app('hydra')->salesInvoiceHeaderReadMultiple(
-                request()->get('no'),
-            );
-        });
-
-        // Sales Invoice Lines
-        $route->post('/sales/invoice/lines/create', function () {
-            return app('hydra')->salesInvoiceLinesCreate(
-                request()->get('documentno'),
-                request()->get('type'),
-                request()->get('no'),
-                request()->get('description'),
-                request()->get('description2'),
-                request()->get('quantity'),
-                request()->get('measyrecode'),
-                request()->get('unitprice'),
-                request()->get('linediscountpercent'),
-            );
-        });
-
-        $route->post('/sales/invoice/lines/update', function () {
-            return app('hydra')->salesInvoiceLinesUpdate(
-                request()->get('key'),
-                request()->get('documentno'),
-                request()->get('type'),
-                request()->get('no'),
-                request()->get('description'),
-                request()->get('description2'),
-                request()->get('quantity'),
-                request()->get('measyrecode'),
-                request()->get('unitprice'),
-                request()->get('linediscountpercent'),
-            );
-        });
-
-        $route->get('/sales/invoice/lines/read', function () {
-            return app('hydra')->salesLinesInvoiceRead(
-                request()->get('documentno'),
-                request()->get('lineno'),
-            );
-        });
-
-        $route->get('/sales/invoice/lines/readMultiple', function () {
-            return app('hydra')->salesLinesInvoiceReadMultiple(
-                request()->get('documentno'),
-            );
-        });
-
-        // Cust Ledger Entry
-        $route->get('/costumer/ledger/entry/read', function () {
-            return app('hydra')->custLedgerEntryRead(
-                request()->get('entryno'),
-            );
-        });
-
-        // $route->post('/costumer/ledger/entry/readMultiple', function () {
-        //     return app('hydra')->custLedgerEntryReadMultiple(
-        //         request()->get('customerno'),
-        //     );
-        // });
-
-        // Stock Items
-        $route->get('/item/stock/read', function () {
-            return app('hydra')->itemStockRead(
-                request()->get('no'),
-            );
-        });
-
-        $route->get('/item/stock/readMultiple', function () {
-            return app('hydra')->itemStockReadMultiple(
-                request()->get('inventorybylocation'),
-            );
-        });
-
-        // Generic Methods
-        $route->post('/methods/print/invoice', function () {
-            return app('hydra')->fxPostInvoice(
-                request()->get('pinvoiceno'),
-            );
-        });
-
-        $route->post('/methods/print/document', function () {
-            return app('hydra')->fxPrintDocument(
-                request()->get('pinvoiceno'),
-            );
-        });
-
-        $route->get('/methods/sales/price', function () {
-            return app('hydra')->getSalesPrice(
-                request()->get('pcustomer'),
-                request()->get('pitemno'),
-                request()->get('pcustomerpricetable'),
-                request()->get('pdate'),
-            );
-        });
-    });
+    ], function() use ($router, $routes) {
+        foreach ($routes as $route) {
+            extract($route);
+            $router->$request($url, "$controller@$method");
+        }
+    }
 
 }

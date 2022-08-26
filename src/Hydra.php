@@ -88,6 +88,8 @@ class Hydra
                 'setSize' => 1,
             ]);
 
+        return property_exists($result->ReadMultiple_Result, "WsCustomers");
+
         return $result->ReadMultiple_Result->WsCustomers ? true : false ;
     }
 
