@@ -242,13 +242,13 @@ if (app() instanceof \Illuminate\Foundation\Application) {
     // Code for lumen
     $router = $this->app->router;
     $router->group([
-        'middleware' => 'api',
+        // 'middleware' => 'api', // API middleware not needed as lumen is for api it self
         'prefix' => 'api/hydra'
     ], function() use ($router, $routes) {
         foreach ($routes as $route) {
             extract($route);
             $router->$request($url, "$controller@$method");
         }
-    }
+    });
 
 }
