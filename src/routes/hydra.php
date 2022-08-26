@@ -231,8 +231,8 @@ if (app() instanceof \Illuminate\Foundation\Application) {
 
     // Code for laravel
     Route::middleware('api')->prefix('api/hydra')->group(function () use ($routes) {
-        foreach ($routes as $r) {
-            extract($r);
+        foreach ($routes as $route) {
+            extract($route);
             Route::$request($url, [$controller, $method]);
         }
     });
