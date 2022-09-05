@@ -197,26 +197,28 @@ class Hydra
     /**
      * Read Multiple Sales Price
      *
-     * @param string $email
-     * @param string $vat
-     * @return object the costumer
+     * @param string $item_no
+     * @param string $size
+     * @return object if 1
+     * @return object more than 1
      */
     public function readMultipleSalesPrice(
+        string $item_no,
         string $size
-    ): object {
+    ){
         $result = $this
             ->soap('Page/WsSalesPrice')
             ->readMultiple([
                 'filter' => [
                     [
                         'Field' => 'Item_No',
-                        'Criteria' => '*',
+                        'Criteria' => "$item_no",
                     ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
-        return $result->ReadMultiple_Result->WsSalesPrice ?? (object) [];
+        return $result->ReadMultiple_Result->WsSalesPrice ?? [];
     }
 
     
@@ -309,25 +311,27 @@ class Hydra
      * Read Items
      *
      * @param string $no
-     * @return object the item
+     * @param string $size
+     * @return object if 1
+     * @return object more than 1
      */
     public function readMultipleItems(
-        string $email,
-        string $size
-    ): object {
+        string $no,
+        string $size,
+    ){
         $result = $this
             ->soap('Page/WsItems')
             ->readMultiple([
                 'filter' => [
-                //     [
-                //         'Field' => 'No',
-                //         'Criteria' => '*',
-                //     ],
+                    [
+                        'Field' => 'No',
+                        'Criteria' => "$no",
+                    ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
-        return $result->ReadMultiple_Result->WsItems ?? (object) [];
+        return $result->ReadMultiple_Result->WsItems ?? (array) [];
     }
 
     /**
@@ -483,26 +487,28 @@ class Hydra
     /**
      * Read Multiple Costumer
      *
-     * @param string $email
-     * @param string $vat
-     * @return object the costumer
+     * @param string $no
+     * @param string $size
+     * @return object if 1
+     * @return object more than 1
      */
     public function salesOrderHeaderReadMultiple(
-        string $no
-    ): object {
+        string $no,
+        string $size,
+    ) {
         $result = $this
-            ->soap('Page/WsCustomers')
+            ->soap('Page/WsSalesOrderHeader')
             ->readMultiple([
                 'filter' => [
                     [
                         'Field' => 'No',
-                        'Criteria' => "=$no",
+                        'Criteria' => "$no",
                     ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
-        return $result->ReadMultiple_Result->WsCustomers ?? (object) [];
+        return $result->ReadMultiple_Result->WsCustomers ?? (array) [];
     }
 
     /**
@@ -619,21 +625,24 @@ class Hydra
      * Read Multiple  Sales Order Line
      *
      * @param string $no
-     * @return object
+     * @param string $size
+     * @return object if 1
+     * @return object more than 1
      */
     public function salesOrderLineReadMultiple(
-        string $no
-    ): object {
+        string $no,
+        string $size,
+    ) {
         $result = $this
             ->soap('Page/WsSalesOrderLines')
             ->readMultiple([
                 'filter' => [
                     [
                         'Field' => 'No',
-                        'Criteria' => "=$no",
+                        'Criteria' => "$no",
                     ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
         return $result->ReadMultiple_Result->WsSalesOrderLines ?? (object) [];
@@ -776,24 +785,27 @@ class Hydra
      * Read Multiple  Sales Order Line
      *
      * @param string $no
-     * @return object
+     * @param string $size
+     * @return object if 1
+     * @return object more than 1
      */
     public function salesInvoiceHeaderReadMultiple(
-        string $no
-    ): object {
+        string $no,
+        string $size,
+    ) {
         $result = $this
             ->soap('Page/WsSalesOrderLines')
             ->readMultiple([
                 'filter' => [
                     [
                         'Field' => 'No',
-                        'Criteria' => "=$no",
+                        'Criteria' => "$no",
                     ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
-        return $result->ReadMultiple_Result->WsSalesOrderLines ?? (object) [];
+        return $result->ReadMultiple_Result->WsSalesOrderLines ?? (array) [];
     }
     
 
@@ -922,24 +934,26 @@ class Hydra
      * Sales Invoice Lines Read Multiple
      *
      * @param string $documentno
+     * @param string $size
      * @return object
      */
     public function salesLinesInvoiceReadMultiple(
-        string $documentno
-    ): object {
+        string $documentno,
+        string $size,
+    ) {
         $result = $this
             ->soap('Page/WsSalesInvoiceLines')
             ->readMultiple([
                 'filter' => [
                     [
                         'Field' => 'Document_No',
-                        'Criteria' => "=$documentno",
+                        'Criteria' => "$documentno",
                     ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
-        return $result->ReadMultiple_Result->WsSalesInvoiceLines ?? (object) [];
+        return $result->ReadMultiple_Result->WsSalesInvoiceLines ?? (array) [];
     }
 
     /**
@@ -964,24 +978,27 @@ class Hydra
      * Cust Ledger Entry Read Multiple
      *
      * @param string $customerno
-     * @return object
+     * @param string $size
+     * @return object if 1
+     * @return object more than 1
      */
     public function custLedgerEntryReadMultiple(
-        string $customerno
-    ): object {
+        string $customerno,
+        string $size,
+    ) {
         $result = $this
             ->soap('Page/WsCustLedgerEntry')
             ->readMultiple([
                 'filter' => [
                     [
                         'Field' => 'Customer_No',
-                        'Criteria' => "=$customerno",
+                        'Criteria' => "$customerno",
                     ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
-        return $result->ReadMultiple_Result->WsCustLedgerEntry ?? (object) [];
+        return $result->ReadMultiple_Result->WsCustLedgerEntry ?? (array) [];
     }
 
     /**
@@ -1006,11 +1023,14 @@ class Hydra
      * Read Multiple Items Stock
      *
      * @param string $inventorybylocation
-     * @return object
+     * @param string $size
+     * @return object if 1
+     * @return object more than 1
      */
     public function itemStockReadMultiple(
-        string $inventorybylocation
-    ): object {
+        string $inventorybylocation,
+        string $size
+    ) {
         $result = $this
             ->soap('Page/WsStockItems')
             ->readMultiple([
@@ -1020,10 +1040,10 @@ class Hydra
                         'Criteria' => "=$inventorybylocation",
                     ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
-        return $result->ReadMultiple_Result->WsStockItems ?? (object) [];
+        return $result->ReadMultiple_Result->WsStockItems ?? (array) [];
     }
 
     /**

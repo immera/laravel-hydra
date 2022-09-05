@@ -69,7 +69,8 @@ class HydraApiController extends Controller {
 
     public function readMultipleSalesPrice () {
         return app('hydra')->readMultipleSalesPrice(
-            request()->get('size')
+            request()->get('item_no'),
+            request()->get('size'),
         );
     }
 
@@ -97,8 +98,8 @@ class HydraApiController extends Controller {
 
     public function readMultipleItems () {
         return app('hydra')->readMultipleItems(
+            request()->get('no'),
             request()->get('size'),
-            request()->get('email')
         );
     }
 
@@ -153,7 +154,8 @@ class HydraApiController extends Controller {
 
     public function salesOrderHeaderReadMultiple () {
         return app('hydra')->salesOrderHeaderReadMultiple(
-            request()->get('no')
+            request()->get('no'),
+            request()->get('size'),
         );
     }
 
@@ -195,7 +197,8 @@ class HydraApiController extends Controller {
 
     public function salesOrderLineReadMultiple () {
         return app('hydra')->salesOrderLineReadMultiple(
-            request()->get('no')
+            request()->get('no'),
+            request()->get('size'),
         );
     }
 
@@ -244,7 +247,8 @@ class HydraApiController extends Controller {
 
     public function salesInvoiceHeaderReadMultiple () {
         return app('hydra')->salesInvoiceHeaderReadMultiple(
-            request()->get('no')
+            request()->get('no'),
+            request()->get('size'),
         );
     }
 
@@ -287,7 +291,8 @@ class HydraApiController extends Controller {
 
     public function salesLinesInvoiceReadMultiple () {
         return app('hydra')->salesLinesInvoiceReadMultiple(
-            request()->get('documentno')
+            request()->get('documentno'),
+            request()->get('size')
         );
     }
 
@@ -300,7 +305,8 @@ class HydraApiController extends Controller {
 
     public function custLedgerEntryReadMultiple () {
         return app('hydra')->custLedgerEntryReadMultiple(
-            request()->get('customerno')
+            request()->get('customerno'),
+            request()->get('size')
         );
     }
 
@@ -313,7 +319,8 @@ class HydraApiController extends Controller {
 
     public function itemStockReadMultiple () {
         return app('hydra')->itemStockReadMultiple(
-            request()->get('inventorybylocation')
+            request()->get('inventorybylocation'),
+            request()->get('size'),
         );
     }
 
