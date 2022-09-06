@@ -313,7 +313,8 @@ class HydraApiController extends Controller {
 
     public function itemStockReadMultiple () {
         return app('hydra')->itemStockReadMultiple(
-            request()->get('inventorybylocation')
+            request()->get('no'),
+            request()->get('size'),
         );
     }
 

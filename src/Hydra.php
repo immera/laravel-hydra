@@ -1009,15 +1009,16 @@ class Hydra
      * @return object
      */
     public function itemStockReadMultiple(
-        string $inventorybylocation
-    ): object {
+        string $no,
+        string $size
+    ) {
         $result = $this
             ->soap('Page/WsStockItems')
             ->readMultiple([
                 'filter' => [
                     [
-                        'Field' => 'Inventory_By_Location',
-                        'Criteria' => "=$inventorybylocation",
+                        'Field' => 'No',
+                        'Criteria' => "$no",
                     ],
                 ],
                 'setSize' => 1,
