@@ -1053,7 +1053,7 @@ class Hydra
         string $pinvoiceno
     ): object {
         $result = $this
-            ->soap('Page/WsGenericMethods')
+            ->soap('Codeunit/WsGenericMethods')
             ->FxPostInvoice([
                 'pInvoiceNo' => $pinvoiceno
             ]);
@@ -1071,7 +1071,7 @@ class Hydra
         string $pinvoiceno
     ): object {
         $result = $this
-            ->soap('Page/WsGenericMethods')
+            ->soap('Codeunit/WsGenericMethods')
             ->fxPostInvoice([
                 'pInvoiceNo' => $pinvoiceno
             ]);
