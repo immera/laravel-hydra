@@ -509,7 +509,6 @@ class Hydra
      * Sales Order Line Create
      *
      * @param string $documentno
-     * @param string $no
      * @param string $type
      * @param string $description
      * @param string $description2
@@ -521,7 +520,6 @@ class Hydra
      */
     public function salesOrderLineCreate(
         string $documentno,
-        string $no,
         string $type,
         string $description,
         string $description2,
@@ -536,7 +534,6 @@ class Hydra
             ->create([
                 'WsSalesOrderLines' => [
                     'Type' => $type,
-                    'No' => $no,
                     'Document_No' => $documentno,
                     'Description' => $description,
                     'Descriptio\n_2' => $description2,
@@ -812,12 +809,12 @@ class Hydra
      * @return object
      */
     public function salesInvoiceLinesCreate(
-        string $documentno,
-        string $type,
-        string $no,
+        string  $documentno,
+        string  $type,
+        string  $no,
         string  $description,
         string  $description2,
-        string $quantity,
+        string  $quantity,
         string  $measyrecode,
         string  $unitprice,
         string  $linediscountpercent
@@ -964,10 +961,12 @@ class Hydra
      * Cust Ledger Entry Read Multiple
      *
      * @param string $customerno
+     * @param string $size
      * @return object
      */
     public function custLedgerEntryReadMultiple(
-        string $customerno
+        string $customerno,
+        string $size
     ): object {
         $result = $this
             ->soap('Page/WsCustLedgerEntry')
@@ -978,7 +977,7 @@ class Hydra
                         'Criteria' => "=$customerno",
                     ],
                 ],
-                'setSize' => 1,
+                'setSize' => $size,
             ]);
 
         return $result->ReadMultiple_Result->WsCustLedgerEntry ?? (object) [];

@@ -161,7 +161,6 @@ class HydraApiController extends Controller {
     public function salesOrderLineCreate () {
         return app('hydra')->salesOrderLineCreate(
             request()->get('documentno'),
-            request()->get('no'),
             request()->get('type'),
             request()->get('description'),
             request()->get('description2'),
@@ -300,7 +299,8 @@ class HydraApiController extends Controller {
 
     public function custLedgerEntryReadMultiple () {
         return app('hydra')->custLedgerEntryReadMultiple(
-            request()->get('customerno')
+            request()->get('customerno'),
+            request()->get('size')
         );
     }
 
