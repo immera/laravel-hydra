@@ -538,7 +538,6 @@ class Hydra
      * Sales Order Line Create
      *
      * @param string $documentno
-     * @param string $no
      * @param string $type
      * @param string $description
      * @param string $description2
@@ -550,7 +549,6 @@ class Hydra
      */
     public function salesOrderLineCreate(
         string $documentno,
-        string $no,
         string $type,
         string $description,
         string $description2,
@@ -565,7 +563,6 @@ class Hydra
             ->create([
                 'WsSalesOrderLines' => [
                     'Type' => $type,
-                    'No' => $no,
                     'Document_No' => $documentno,
                     'Description' => $description,
                     'Description_2' => $description2,
@@ -1097,7 +1094,7 @@ class Hydra
      * @return object more than 1
      */
     public function itemStockReadMultiple(
-        string $inventorybylocation,
+        string $no,
         string $size
     ) {
         $result = $this
@@ -1105,8 +1102,8 @@ class Hydra
             ->readMultiple([
                 'filter' => [
                     [
-                        'Field' => 'Inventory_By_Location',
-                        'Criteria' => "=$inventorybylocation",
+                        'Field' => 'No',
+                        'Criteria' => "$no",
                     ],
                 ],
                 'setSize' => $size,
@@ -1125,7 +1122,7 @@ class Hydra
         string $pinvoiceno
     ): object {
         $result = $this
-            ->soap('Page/WsGenericMethods')
+            ->soap('Codeunit/WsGenericMethods')
             ->FxPostInvoice([
                 'pInvoiceNo' => $pinvoiceno,
             ]);
@@ -1143,7 +1140,7 @@ class Hydra
         string $pinvoiceno
     ): object {
         $result = $this
-            ->soap('Page/WsGenericMethods')
+            ->soap('Codeunit/WsGenericMethods')
             ->fxPostInvoice([
                 'pInvoiceNo' => $pinvoiceno,
             ]);
