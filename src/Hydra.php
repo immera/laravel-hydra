@@ -821,12 +821,12 @@ class Hydra
      * @return object
      */
     public function salesInvoiceLinesCreate(
-        string  $documentno,
-        string  $type,
-        string  $no,
+        string $documentno,
+        string $type,
+        string $no,
         string  $description,
         string  $description2,
-        string  $quantity,
+        string $quantity,
         string  $measyrecode,
         string  $unitprice,
         string  $linediscountpercent
