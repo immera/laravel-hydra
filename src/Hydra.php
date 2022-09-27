@@ -2,6 +2,7 @@
 
 namespace Immera\Hydra;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use SoapClient;
 
@@ -15,7 +16,7 @@ class Hydra
      */
     private function soap(string $endpoint): SoapClient
     {
-        return new SoapClient(Str::finish(config('hydra.domain'), '/') . $endpoint, [
+        return new SoapClient(Str::finish(config('hydra.domain'), '/').$endpoint, [
             'cache_wsdl' => WSDL_CACHE_NONE,
             'login' => config('hydra.username'),
             'password' => config('hydra.password'),
@@ -28,7 +29,7 @@ class Hydra
      * @param string $name
      * @param string $vat
      * @param string $address
-     * @param string $postcode
+     * @param string $postCode
      * @param string $city
      * @param string $phone
      * @param string $email
@@ -39,7 +40,7 @@ class Hydra
         string $name,
         string $vat,
         string $address,
-        string $postcode,
+        string $postCode,
         string $city,
         string $phone,
         string $email,
@@ -52,7 +53,7 @@ class Hydra
                     'Name' => $name,
                     'VATRegistrationNo' => $vat,
                     'Address' => $address,
-                    'PostCode' => $postcode,
+                    'PostCode' => $postCode,
                     'City' => $city,
                     'PhoneNo' => $phone,
                     'Email' => $email,
@@ -70,8 +71,9 @@ class Hydra
      * @param string $vat
      * @return boolean
      */
-    public function validateCostumer(string $email, string $vat): bool
-    {
+    public function validateCustomer(
+        string $email,
+        string $vat): bool {
         $result = $this
             ->soap('Page/WsCustomers')
             ->readMultiple([
@@ -88,9 +90,7 @@ class Hydra
                 'setSize' => 1,
             ]);
 
-        return property_exists($result->ReadMultiple_Result, "WsCustomers");
-
-        return $result->ReadMultiple_Result->WsCustomers ? true : false ;
+        return property_exists($result->ReadMultiple_Result, 'WsCustomers');
     }
 
     /**
@@ -99,7 +99,7 @@ class Hydra
      * @param string $name
      * @param string $vat
      * @param string $address
-     * @param string $postcode
+     * @param string $postCode
      * @param string $city
      * @param string $phone
      * @param string $email
@@ -109,15 +109,15 @@ class Hydra
     public function updateCostumer(
         string $key,
         string $name,
-        string $name2,
+        ?string $name2,
         string $vat,
         string $address,
-        string $address2,
-        string $postcode,
-        string $city,
-        string $phone,
+        ?string $address2,
+        string $postCode,
+        ?string $city,
+        ?string $phone,
         string $email,
-        string $homepage
+        ?string $homepage
     ): object {
         $result = $this
             ->soap('Page/WsCustomers')
@@ -129,11 +129,11 @@ class Hydra
                     'VATRegistrationNo' => $vat,
                     'Address' => $address,
                     'Address2' => $address2,
-                    'PostCode' => $postcode,
+                    'PostCode' => $postCode,
                     'City' => $city,
                     'PhoneNo' => $phone,
                     'Email' => $email,
-                    'HomePage' => $homepage
+                    'HomePage' => $homepage,
                 ],
             ]);
 
@@ -145,6 +145,8 @@ class Hydra
      *
      * @param string $no
      * @return object
+     *
+     * @deprecated
      */
     public function readCostumer(
         string $no
@@ -152,12 +154,36 @@ class Hydra
         $result = $this
             ->soap('Page/WsCustomers')
             ->read([
-                'No' => $no
+                'No' => $no,
             ]);
 
         return $result->WsCustomers ?? (object) [];
     }
-    
+
+    /**
+     * Read Costumer
+     *
+     * @param string $no
+     * @return object
+     */
+    public function readCostumerByEmail(
+        string $email
+    ): object {
+        $result = $this
+            ->soap('Page/WsCustomers')
+            ->readMultiple([
+                'filter' => [
+                    [
+                        'Field' => 'Email',
+                        'Criteria' => "=$email",
+                    ],
+                ],
+                'setSize' => 1,
+            ]);
+
+        return $result->ReadMultiple_Result->WsCustomers ?? (object) [];
+    }
+
     /**
      * Read Sales Price
      *
@@ -188,7 +214,7 @@ class Hydra
                 'Starting_Date' => $startingdate,
                 'Currency_Code' => $currencycode,
                 'Unit_of_Measure_Code' => $measurecode,
-                'Minimum_Quantity' => $quantity
+                'Minimum_Quantity' => $quantity,
             ]);
 
         return $result->WsSalesPrice ?? (object) [];
@@ -205,7 +231,7 @@ class Hydra
     public function readMultipleSalesPrice(
         string $item_no,
         string $size
-    ){
+    ) {
         $result = $this
             ->soap('Page/WsSalesPrice')
             ->readMultiple([
@@ -220,8 +246,6 @@ class Hydra
 
         return $result->ReadMultiple_Result->WsSalesPrice ?? [];
     }
-
-    
 
     /**
      * Read Line Discounts
@@ -256,7 +280,7 @@ class Hydra
                 'Starting_Date' => $startingdate,
                 'Currency_Code' => $currencycode,
                 'Unit_of_Measure_Code' => $measurecode,
-                'Minimum_Quantity' => $quantity
+                'Minimum_Quantity' => $quantity,
             ]);
 
         return $result->WsSalesLineDiscounts ?? (object) [];
@@ -287,7 +311,6 @@ class Hydra
 
         return $result->ReadMultiple_Result->WsSalesLineDiscounts ?? (object) [];
     }
-    
 
     /**
      * Read Item
@@ -318,7 +341,7 @@ class Hydra
     public function readMultipleItems(
         string $no,
         string $size,
-    ){
+    ) {
         $result = $this
             ->soap('Page/WsItems')
             ->readMultiple([
@@ -340,12 +363,12 @@ class Hydra
      * @param string $selltocustomerno
      * @param string $selltocustomername
      * @param string $postingnoseries
-     * @param string $postcode
+     * @param string $postCode
      * @param string $prepaymentnoseries
      * @param string $selltoaddress
      * @param string $selltoaddress2
      * @param string $selltocity
-     * @param string $selltopostcode
+     * @param string $selltopostCode
      * @param string $selltocontryregioncode
      * @param string $selltocontract
      * @param string $postingdate
@@ -363,7 +386,7 @@ class Hydra
         string $selltoaddress,
         string $selltoaddress2,
         string $selltocity,
-        string $selltopostcode,
+        string $selltopostCode,
         string $selltocontryregioncode,
         string $selltocontract,
         string $postingdate,
@@ -383,7 +406,7 @@ class Hydra
                     'Sell_to_Address' => $selltoaddress,
                     'Sell_to_Address_2' => $selltoaddress2,
                     'Sell_to_City' => $selltocity,
-                    'Sell_to_Post_Code' => $selltopostcode,
+                    'Sell_to_Post_Code' => $selltopostCode,
                     'Sell_to_Country_Region_Code' => $selltocontryregioncode,
                     'Sell_to_Contact' => $selltocontract,
                     'Posting_Date' => $postingdate,
@@ -396,7 +419,7 @@ class Hydra
 
         return $result->WsSalesOrderHeader ?? null;
     }
-    
+
     /**
      * Sales Order Header Update
      *
@@ -405,12 +428,12 @@ class Hydra
      * @param string $selltocustomerno
      * @param string $selltocustomername
      * @param string $postingnoseries
-     * @param string $postcode
+     * @param string $postCode
      * @param string $prepaymentnoseries
      * @param string $selltoaddress
      * @param string $selltoaddress2
      * @param string $selltocity
-     * @param string $selltopostcode
+     * @param string $selltopostCode
      * @param string $selltocontryregioncode
      * @param string $selltocontract
      * @param string $postingdate
@@ -430,7 +453,7 @@ class Hydra
         string $selltoaddress,
         string $selltoaddress2,
         string $selltocity,
-        string $selltopostcode,
+        string $selltopostCode,
         string $selltocontryregioncode,
         string $selltocontract,
         string $postingdate,
@@ -452,7 +475,7 @@ class Hydra
                     'Sell_to_Address' => $selltoaddress,
                     'Sell_to_Address_2' => $selltoaddress2,
                     'Sell_to_City' => $selltocity,
-                    'Sell_to_Post_Code' => $selltopostcode,
+                    'Sell_to_Post_Code' => $selltopostCode,
                     'Sell_to_Country_Region_Code' => $selltocontryregioncode,
                     'Sell_to_Contact' => $selltocontract,
                     'Posting_Date' => $postingdate,
@@ -478,7 +501,7 @@ class Hydra
         $result = $this
             ->soap('Page/WsSalesOrderHeader')
             ->read([
-                'No' => $no
+                'No' => $no,
             ]);
 
         return $result->WsSalesOrderHeader ?? (object) [];
@@ -521,8 +544,8 @@ class Hydra
      * @param string $description2
      * @param string $quantity
      * @param string $measurecode
-     * @param string $unitprice
-     * @param string $linediscountpercent
+     * @param string $unitPrice
+     * @param string $lineDiscountPercent
      * @return object
      */
     public function salesOrderLineCreate(
@@ -533,8 +556,8 @@ class Hydra
         string $description2,
         string $quantity,
         string $measurecode,
-        string $unitprice,
-        string $linediscountpercent
+        string $unitPrice,
+        string $lineDiscountPercent
     ): object {
 
         $result = $this
@@ -545,11 +568,11 @@ class Hydra
                     'No' => $no,
                     'Document_No' => $documentno,
                     'Description' => $description,
-                    'Descriptio\n_2' => $description2,
+                    'Description_2' => $description2,
                     'Quantity' => $quantity,
                     'Unit_of_Measure_Code' => $measurecode,
-                    'Unit_Price' => $unitprice,
-                    'Line_Discount_Percent' => $linediscountpercent,
+                    'Unit_Price' => $unitPrice,
+                    'Line_Discount_Percent' => $lineDiscountPercent,
                 ],
             ]);
 
@@ -557,7 +580,7 @@ class Hydra
     }
 
     /**
-     * Update Sales Order Line 
+     * Update Sales Order Line
      *
      * @param string $key
      * @param string $type
@@ -566,8 +589,8 @@ class Hydra
      * @param string $description2
      * @param string $quantity
      * @param string $measurecode
-     * @param string $unitprice
-     * @param string $linediscountpercent
+     * @param string $unitPrice
+     * @param string $lineDiscountPercent
      * @return object
      */
     public function salesOrderLineUpdate(
@@ -578,8 +601,8 @@ class Hydra
         string $description2,
         string $quantity,
         string $measurecode,
-        string $unitprice,
-        string $linediscountpercent
+        string $unitPrice,
+        string $lineDiscountPercent
     ): object {
         $result = $this
             ->soap('Page/WsSalesOrderLines')
@@ -589,11 +612,11 @@ class Hydra
                     'Type' => $type,
                     'No' => $no,
                     'Description' => $description,
-                    'Descriptio\n_2' => $description2,
+                    'Description_2' => $description2,
                     'Quantity' => $quantity,
                     'Unit_of_Measure_Code' => $measurecode,
-                    'Unit_Price' => $unitprice,
-                    'Line_Discount_Percent' => $linediscountpercent,
+                    'Unit_Price' => $unitPrice,
+                    'Line_Discount_Percent' => $lineDiscountPercent,
                 ],
             ]);
 
@@ -615,14 +638,14 @@ class Hydra
             ->soap('Page/WsSalesOrderLines')
             ->read([
                 'Document_No' => $documentno,
-                'Line_No' => $lineno
+                'Line_No' => $lineno,
             ]);
 
         return $result->WsSalesOrderLines ?? (object) [];
     }
 
     /**
-     * Read Multiple  Sales Order Line
+     * Read Multiple Sales Order Line
      *
      * @param string $no
      * @param string $size
@@ -648,6 +671,55 @@ class Hydra
         return $result->ReadMultiple_Result->WsSalesOrderLines ?? (object) [];
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param string $selltocustomerno
+     * @param string $selltocustomername
+     * @param string $selltoaddress
+     * @param string $selltocity
+     * @param string $selltopostCode
+     * @param string $selltocountryregioncode
+     * @param array $products
+     * @return int Invoice Number
+     */
+    public function salesInvoiceCreate(
+        string $selltocustomerno,
+        string $selltocustomername,
+        string $selltoaddress,
+        string $selltocity,
+        string $selltopostCode,
+        string $selltocountryregioncode,
+        array $products
+    ) {
+        $invoiceHeader = $this->salesInvoiceHeaderCreate(
+            $selltocustomerno, // $selltocustomerno,
+            $selltocustomername, // $selltocustomername,
+            '', // $postingnoseries - keeping this empty will be considered according to hydra doc.
+            '', // $prepaymentnoseries - no details found in the doc.,
+            $selltoaddress, // $selltoaddress,
+            '', // $selltoaddress2,
+            $selltocity, // $selltocity,
+            $selltopostCode, // $selltopostcode,
+            $selltocountryregioncode, // $selltocountryregioncode,
+            '', // $selltocontact,
+        );
+
+        foreach ($products as $product) {
+            $this->salesInvoiceLinesCreate(
+                $invoiceHeader->No, // $documentno,
+                $product['type'], // $type,
+                $product['description'], // $description,
+                '', // $description2,
+                $product['quantity'], // $quantity,
+                $product['measyrecode'], // $measyrecode,
+                $product['unitprice'], // $unitprice,
+                0, // $linediscountpercent
+            );
+        }
+
+        return $invoiceHeader->No;
+    }
 
     /**
      * Sales Invoice Header Create
@@ -659,14 +731,14 @@ class Hydra
      * @param string $selltoaddress
      * @param string $selltoaddress2
      * @param string $selltocity
-     * @param string $selltopostcode
+     * @param string $selltopostCode
      * @param string $selltocountryregioncode
      * @param string $selltocontact
      * @param string $postingdate
      * @param string $duedate
      * @return object
      */
-    public function salesInvoiceHeaderCreate(
+    private function salesInvoiceHeaderCreate(
         string $selltocustomerno,
         string $selltocustomername,
         string $postingnoseries,
@@ -674,13 +746,12 @@ class Hydra
         string $selltoaddress,
         string $selltoaddress2,
         string $selltocity,
-        string $selltopostcode,
+        string $selltopostCode,
         string $selltocountryregioncode,
         string $selltocontact,
-        string $postingdate,
-        string $duedate
+        string $postingdate = null,
+        string $duedate = null
     ): object {
-
         $result = $this
             ->soap('Page/WsSalesInvoiceHeader')
             ->create([
@@ -692,18 +763,18 @@ class Hydra
                     'Sell_to_Address' => $selltoaddress,
                     'Sell_to_Address_2' => $selltoaddress2,
                     'Sell_to_City' => $selltocity,
-                    'Sell_to_Post_Code' => $selltopostcode,
+                    'Sell_to_Post_Code' => $selltopostCode,
                     'Sell_to_Country_Region_Code' => $selltocountryregioncode,
                     'Sell_to_Contact' => $selltocontact,
-                    'Posting_Date' => $postingdate,
-                    'Due_Date' => $duedate,
+                    'Posting_Date' => $postingdate ?? (new Carbon())->toDateString(),
+                    'Due_Date' => $duedate ?? '0001-01-01',
                 ],
             ]);
 
         return $result->WsSalesInvoiceHeader ?? null;
     }
 
-     /**
+    /**
      * Sales Invoice Header Update
      *
      * @param string $key
@@ -715,14 +786,14 @@ class Hydra
      * @param string $selltoaddress
      * @param string $selltoaddress2
      * @param string $selltocity
-     * @param string $selltopostcode
+     * @param string $selltopostCode
      * @param string $selltocountryregioncode
      * @param string $selltocontact
      * @param string $postingdate
      * @param string $duedate
      * @return object
      */
-    public function salesInvoiceHeaderUpdate(
+    private function salesInvoiceHeaderUpdate(
         string $key,
         string $no,
         string $selltocustomerno,
@@ -732,7 +803,7 @@ class Hydra
         string $selltoaddress,
         string $selltoaddress2,
         string $selltocity,
-        string $selltopostcode,
+        string $selltopostCode,
         string $selltocountryregioncode,
         string $selltocontact,
         string $postingdate,
@@ -752,7 +823,7 @@ class Hydra
                     'Sell_to_Address' => $selltoaddress,
                     'Sell_to_Address_2' => $selltoaddress2,
                     'Sell_to_City' => $selltocity,
-                    'Sell_to_Post_Code' => $selltopostcode,
+                    'Sell_to_Post_Code' => $selltopostCode,
                     'Sell_to_Country_Region_Code' => $selltocountryregioncode,
                     'Sell_to_Contact' => $selltocontact,
                     'Posting_Date' => $postingdate,
@@ -769,7 +840,7 @@ class Hydra
      * @param string $no
      * @return object
      */
-    public function salesInvoiceHeaderRead(
+    private function salesInvoiceHeaderRead(
         string $no
     ): object {
         $result = $this
@@ -782,14 +853,14 @@ class Hydra
     }
 
     /**
-     * Read Multiple  Sales Order Line
+     * Read Multiple Sales Order Line
      *
      * @param string $no
      * @param string $size
      * @return object if 1
      * @return object more than 1
      */
-    public function salesInvoiceHeaderReadMultiple(
+    private function salesInvoiceHeaderReadMultiple(
         string $no,
         string $size,
     ) {
@@ -807,7 +878,6 @@ class Hydra
 
         return $result->ReadMultiple_Result->WsSalesOrderLines ?? (array) [];
     }
-    
 
     /**
      * Sales Invoice Lines Create
@@ -815,24 +885,23 @@ class Hydra
      * @param string documentno
      * @param string type
      * @param string no
-     * @param string  description
-     * @param string  description2
+     * @param string description
+     * @param string description2
      * @param string quantity
-     * @param string  measyrecode
-     * @param string  unitprice
-     * @param string  linediscountpercent
+     * @param string measureCode
+     * @param string unitPrice
+     * @param string lineDiscountPercent
      * @return object
      */
-    public function salesInvoiceLinesCreate(
+    private function salesInvoiceLinesCreate(
         string $documentno,
         string $type,
-        string $no,
-        string  $description,
-        string  $description2,
+        string $description,
+        string $description2,
         string $quantity,
-        string  $measyrecode,
-        string  $unitprice,
-        string  $linediscountpercent
+        string $measureCode,
+        string $unitPrice,
+        string $lineDiscountPercent
     ): object {
 
         $result = $this
@@ -841,19 +910,17 @@ class Hydra
                 'WsSalesInvoiceLines' => [
                     'Document_No' => $documentno,
                     'Type' => $type,
-                    'No' => $no,
                     'Description' => $description,
                     'Description_2' => $description2,
                     'Quantity' => $quantity,
-                    'Unit_of_Measure_Code' => $measyrecode,
-                    'Unit_Price' => $unitprice,
-                    'Line_Discount_Percent' => $linediscountpercent,
+                    'Unit_of_Measure_Code' => $measureCode,
+                    'Unit_Price' => $unitPrice,
+                    'Line_Discount_Percent' => $lineDiscountPercent,
                 ],
             ]);
 
         return $result->WsSalesInvoiceLines ?? null;
     }
-
 
     /**
      * Sales Invoice Lines Update
@@ -862,29 +929,29 @@ class Hydra
      * @param string documentno
      * @param string type
      * @param string no
-     * @param string  description
-     * @param string  description2
+     * @param string description
+     * @param string description2
      * @param string quantity
-     * @param string  measyrecode
-     * @param string  unitprice
-     * @param string  linediscountpercent
-     * @param string  amount
-     * @param string  amountincludingvat
+     * @param string measureCode
+     * @param string unitPrice
+     * @param string lineDiscountPercent
+     * @param string amount
+     * @param string amountIncludingVat
      * @return object
      */
-    public function salesInvoiceLinesUpdate(
+    private function salesInvoiceLinesUpdate(
         string $key,
         string $documentno,
         string $type,
         string $no,
-        string  $description,
-        string  $description2,
+        string $description,
+        string $description2,
         string $quantity,
-        string  $measyrecode,
-        string  $unitprice,
-        string  $linediscountpercent,
-        string  $amount,
-        string  $amountincludingvat
+        string $measureCode,
+        string $unitPrice,
+        string $lineDiscountPercent,
+        string $amount,
+        string $amountIncludingVat
     ): object {
 
         $result = $this
@@ -898,11 +965,11 @@ class Hydra
                     'Description' => $description,
                     'Description_2' => $description2,
                     'Quantity' => $quantity,
-                    'Unit_of_Measure_Code' => $measyrecode,
-                    'Unit_Price' => $unitprice,
-                    'Line_Discount_Percent' => $linediscountpercent,
+                    'Unit_of_Measure_Code' => $measureCode,
+                    'Unit_Price' => $unitPrice,
+                    'Line_Discount_Percent' => $lineDiscountPercent,
                     'Amount' => $amount,
-                    'Amount_Including_VAT' => $amountincludingvat
+                    'Amount_Including_VAT' => $amountIncludingVat,
                 ],
             ]);
 
@@ -968,7 +1035,7 @@ class Hydra
         $result = $this
             ->soap('Page/WsCustLedgerEntry')
             ->read([
-                'Entry_No' => $entryno
+                'Entry_No' => $entryno,
             ]);
 
         return $result->WsCustLedgerEntry ?? (object) [];
@@ -984,7 +1051,8 @@ class Hydra
      */
     public function custLedgerEntryReadMultiple(
         string $customerno,
-        string $size,
+        int $size = 10,
+        string $bookmarkKey = '',
     ) {
         $result = $this
             ->soap('Page/WsCustLedgerEntry')
@@ -996,6 +1064,7 @@ class Hydra
                     ],
                 ],
                 'setSize' => $size,
+                'bookmarkKey' => $bookmarkKey,
             ]);
 
         return $result->ReadMultiple_Result->WsCustLedgerEntry ?? (array) [];
@@ -1013,7 +1082,7 @@ class Hydra
         $result = $this
             ->soap('Page/WsStockItems')
             ->read([
-                'No' => $no
+                'No' => $no,
             ]);
 
         return $result->WsStockItems ?? (object) [];
@@ -1047,7 +1116,7 @@ class Hydra
     }
 
     /**
-     * FX POST INVOICE 
+     * FX POST INVOICE
      *
      * @param string $pinvoiceno
      * @return object
@@ -1058,14 +1127,14 @@ class Hydra
         $result = $this
             ->soap('Page/WsGenericMethods')
             ->FxPostInvoice([
-                'pInvoiceNo' => $pinvoiceno
+                'pInvoiceNo' => $pinvoiceno,
             ]);
 
         return $result->WsGenericMethods ?? (object) [];
     }
 
     /**
-     * FX PRINT DOCUMENT 
+     * FX PRINT DOCUMENT
      *
      * @param string $pinvoiceno
      * @return object
@@ -1076,7 +1145,7 @@ class Hydra
         $result = $this
             ->soap('Page/WsGenericMethods')
             ->fxPostInvoice([
-                'pInvoiceNo' => $pinvoiceno
+                'pInvoiceNo' => $pinvoiceno,
             ]);
 
         return $result->WsGenericMethods ?? (object) [];
@@ -1085,25 +1154,25 @@ class Hydra
     /**
      * FX GET SALES PRICE
      *
-     * @param string $pcustomer
-     * @param string $pitemno
-     * @param string $pcustomerpricetable
-     * @param string $pdate
+     * @param string $pCustomer
+     * @param string $pItemNo
+     * @param string $pCustomerPriceTable
+     * @param string $pDate
      * @return object
      */
     public function getSalesPrice(
-        string $pcustomer,
-        string $pitemno,
-        string $pcustomerpricetable,
-        string $pdate
+        string $pCustomer,
+        string $pItemNo,
+        string $pCustomerPriceTable,
+        string $pDate
     ): object {
         $result = $this
             ->soap('Page/fxGetSalesPrice')
             ->fxPostInvoice([
-                'pCustomer' => $pcustomer,
-                'pItemNo' => $pitemno,
-                'pCustomerPriceTable' => $pcustomerpricetable,
-                'pDate ' => $pdate,
+                'pCustomer' => $pCustomer,
+                'pItemNo' => $pItemNo,
+                'pCustomerPriceTable' => $pCustomerPriceTable,
+                'pDate ' => $pDate,
             ]);
 
         return $result->fxGetSalesPrice ?? (object) [];
