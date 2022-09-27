@@ -340,7 +340,7 @@ class Hydra
      */
     public function readMultipleItems(
         string $no,
-        string $size,
+        string $size
     ) {
         $result = $this
             ->soap('Page/WsItems')
@@ -517,7 +517,7 @@ class Hydra
      */
     public function salesOrderHeaderReadMultiple(
         string $no,
-        string $size,
+        string $size
     ) {
         $result = $this
             ->soap('Page/WsSalesOrderHeader')
@@ -651,7 +651,7 @@ class Hydra
      */
     public function salesOrderLineReadMultiple(
         string $no,
-        string $size,
+        string $size
     ) {
         $result = $this
             ->soap('Page/WsSalesOrderLines')
@@ -859,7 +859,7 @@ class Hydra
      */
     private function salesInvoiceHeaderReadMultiple(
         string $no,
-        string $size,
+        string $size
     ) {
         $result = $this
             ->soap('Page/WsSalesOrderLines')
@@ -1003,7 +1003,7 @@ class Hydra
      */
     public function salesLinesInvoiceReadMultiple(
         string $documentno,
-        string $size,
+        string $size
     ) {
         $result = $this
             ->soap('Page/WsSalesInvoiceLines')
@@ -1049,7 +1049,7 @@ class Hydra
     public function custLedgerEntryReadMultiple(
         string $customerno,
         int $size = 10,
-        string $bookmarkKey = '',
+        string $bookmarkKey = ''
     ) {
         $result = $this
             ->soap('Page/WsCustLedgerEntry')
