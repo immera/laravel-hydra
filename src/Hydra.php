@@ -14,7 +14,7 @@ class Hydra
      * @param string $endpoint
      * @return SoapClient
      */
-    private function soap(string $endpoint): SoapClient
+    public function soap(string $endpoint): SoapClient
     {
         return new SoapClient(Str::finish(config('hydra.domain'), '/').$endpoint, [
             'cache_wsdl' => WSDL_CACHE_NONE,
@@ -735,7 +735,7 @@ class Hydra
      * @param string $duedate
      * @return object
      */
-    private function salesInvoiceHeaderCreate(
+    public function salesInvoiceHeaderCreate(
         string $selltocustomerno,
         string $selltocustomername,
         string $postingnoseries,
@@ -790,7 +790,7 @@ class Hydra
      * @param string $duedate
      * @return object
      */
-    private function salesInvoiceHeaderUpdate(
+    public function salesInvoiceHeaderUpdate(
         string $key,
         string $no,
         string $selltocustomerno,
@@ -837,7 +837,7 @@ class Hydra
      * @param string $no
      * @return object
      */
-    private function salesInvoiceHeaderRead(
+    public function salesInvoiceHeaderRead(
         string $no
     ): object {
         $result = $this
@@ -857,12 +857,12 @@ class Hydra
      * @return object if 1
      * @return object more than 1
      */
-    private function salesInvoiceHeaderReadMultiple(
+    public function salesInvoiceHeaderReadMultiple(
         string $no,
         string $size
     ) {
         $result = $this
-            ->soap('Page/WsSalesOrderLines')
+            ->soap('Page/WsSalesInvoiceHeader')
             ->readMultiple([
                 'filter' => [
                     [
@@ -873,7 +873,7 @@ class Hydra
                 'setSize' => $size,
             ]);
 
-        return $result->ReadMultiple_Result->WsSalesOrderLines ?? (array) [];
+        return $result->ReadMultiple_Result->WsSalesInvoiceHeader ?? (array) [];
     }
 
     /**
@@ -890,7 +890,7 @@ class Hydra
      * @param string lineDiscountPercent
      * @return object
      */
-    private function salesInvoiceLinesCreate(
+    public function salesInvoiceLinesCreate(
         string $documentno,
         string $type,
         string $description,
@@ -936,7 +936,7 @@ class Hydra
      * @param string amountIncludingVat
      * @return object
      */
-    private function salesInvoiceLinesUpdate(
+    public function salesInvoiceLinesUpdate(
         string $key,
         string $documentno,
         string $type,
@@ -1059,6 +1059,10 @@ class Hydra
                         'Field' => 'Customer_No',
                         'Criteria' => "$customerno",
                     ],
+                    [
+                        'Field' => 'Document_Type',
+                        'Criteria' => 'Invoice',
+                    ],
                 ],
                 'setSize' => $size,
                 'bookmarkKey' => $bookmarkKey,
@@ -1115,16 +1119,16 @@ class Hydra
     /**
      * FX POST INVOICE
      *
-     * @param string $pinvoiceno
+     * @param string $pInvoiceNo
      * @return object
      */
     public function fxPostInvoice(
-        string $pinvoiceno
+        string $pInvoiceNo
     ): object {
         $result = $this
             ->soap('Codeunit/WsGenericMethods')
-            ->FxPostInvoice([
-                'pInvoiceNo' => $pinvoiceno,
+            ->fxPostInvoice([
+                'pInvoiceNo' => $pInvoiceNo,
             ]);
 
         return $result->WsGenericMethods ?? (object) [];
@@ -1133,19 +1137,19 @@ class Hydra
     /**
      * FX PRINT DOCUMENT
      *
-     * @param string $pinvoiceno
-     * @return object
+     * @param string $pInvoiceNo
+     * @return string
      */
     public function fxPrintDocument(
-        string $pinvoiceno
-    ): object {
+        string $pInvoiceNo
+    ): string {
         $result = $this
             ->soap('Codeunit/WsGenericMethods')
-            ->fxPostInvoice([
-                'pInvoiceNo' => $pinvoiceno,
+            ->fxPrintDocument([
+                'pInvoiceNo' => $pInvoiceNo,
             ]);
 
-        return $result->WsGenericMethods ?? (object) [];
+        return base64_decode($result->return_value) ?? null;
     }
 
     /**
